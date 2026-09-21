@@ -9,14 +9,11 @@ use App\Models\User;
 class ClientPolicy
 {
     /**
-     * Determine whether the user can view any clients.
-     *
-     * Actual filtering of which clients are visible happens via the
-     * Client::visibleTo() query scope, not here.
+     * Determine whether the user can access the client management screens.
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->role === UserRole::AdminFirma;
     }
 
     /**
@@ -30,5 +27,21 @@ class ClientPolicy
 
         return $user->role === UserRole::AdminFirma
             || $client->users()->whereKey($user->id)->exists();
+    }
+
+    /**
+     * Determine whether the user can create clients.
+     */
+    public function create(User $user): bool
+    {
+        return $user->role === UserRole::AdminFirma;
+    }
+
+    /**
+     * Determine whether the user can update the given client.
+     */
+    public function update(User $user, Client $client): bool
+    {
+        return $user->role === UserRole::AdminFirma && $user->firm_id === $client->firm_id;
     }
 }
