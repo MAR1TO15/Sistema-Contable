@@ -8,6 +8,8 @@
 </head>
 <body class="bg-gray-50 dark:bg-gray-900">
     <div class="mx-auto max-w-4xl px-4 py-8">
+        <a href="{{ route('home') }}" class="mb-4 inline-block text-sm text-blue-700 hover:underline dark:text-blue-400">&larr; Inicio</a>
+
         <div class="mb-6 flex items-center justify-between">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Clientes</h1>
             <a
