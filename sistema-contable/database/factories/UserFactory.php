@@ -48,6 +48,18 @@ class UserFactory extends Factory
     }
 
     /**
+     * Indicate that the user is a platform-wide super administrator,
+     * not tied to any single firm.
+     */
+    public function superAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'firm_id' => null,
+            'role' => UserRole::SuperAdmin,
+        ]);
+    }
+
+    /**
      * Indicate that the model's email address should be unverified.
      */
     public function unverified(): static

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\FirmController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,4 +21,7 @@ Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::middleware('auth')->group(function () {
     Route::resource('clients', ClientController::class)->except(['show', 'destroy']);
     Route::patch('clients/{client}/toggle', [ClientController::class, 'toggleActive'])->name('clients.toggle');
+
+    Route::resource('firms', FirmController::class)->except(['show', 'destroy']);
+    Route::patch('firms/{firm}/toggle', [FirmController::class, 'toggleActive'])->name('firms.toggle');
 });
