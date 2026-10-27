@@ -72,6 +72,20 @@
                     </p>
                 </a>
             @endcan
+
+            @can('viewAny', \App\Models\User::class)
+                <a
+                    href="{{ route('accountants.index') }}"
+                    class="group rounded-lg bg-white p-6 shadow transition hover:shadow-md dark:bg-gray-800"
+                >
+                    <h2 class="mb-1 text-lg font-semibold text-gray-900 group-hover:text-blue-700 dark:text-white dark:group-hover:text-blue-400">
+                        Gestionar contadores
+                    </h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Registra a los contadores de tu firma y controla su acceso.
+                    </p>
+                </a>
+            @endcan
         </div>
 
         @cannot('viewAny', \App\Models\Firm::class)

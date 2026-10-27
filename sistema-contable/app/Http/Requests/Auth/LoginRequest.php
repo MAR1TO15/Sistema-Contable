@@ -50,6 +50,14 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        if (! Auth::user()->canAccessSystem()) {
+            Auth::guard('web')->logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Tu cuenta o tu firma está desactivada. Contacta a tu administrador.',
+            ]);
+        }
     }
 
     /**
