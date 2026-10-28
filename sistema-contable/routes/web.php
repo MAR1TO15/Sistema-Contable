@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\FirmController;
+use App\Http\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,6 +23,9 @@ Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::middleware('auth')->group(function () {
     Route::resource('clients', ClientController::class)->except(['show', 'destroy']);
     Route::patch('clients/{client}/toggle', [ClientController::class, 'toggleActive'])->name('clients.toggle');
+
+    Route::get('workspace', [WorkspaceController::class, 'index'])->name('workspace.index');
+    Route::post('workspace/{client}', [WorkspaceController::class, 'select'])->name('workspace.select');
 
     Route::resource('accountants', AccountantController::class)->except(['show', 'destroy']);
     Route::patch('accountants/{accountant}/toggle', [AccountantController::class, 'toggleActive'])->name('accountants.toggle');
