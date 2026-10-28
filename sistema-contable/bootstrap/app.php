@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureActiveClient;
 use App\Http\Middleware\EnsureUserIsActive;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
             EnsureUserIsActive::class,
+        ]);
+
+        $middleware->alias([
+            'active.client' => EnsureActiveClient::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

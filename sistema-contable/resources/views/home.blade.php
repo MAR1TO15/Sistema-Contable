@@ -15,10 +15,20 @@
         ];
         $roleLabel = $roleLabels[auth()->user()->role->value] ?? null;
     @endphp
+    @inject('activeClientService', 'App\Services\ActiveClient')
+    @php($activeClient = $activeClientService->get())
 
     <header class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-        <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
+        <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4">
             <span class="text-lg font-bold text-gray-900 dark:text-white">Sistema Contable</span>
+
+            @if ($activeClient)
+                <div class="ml-auto flex items-center gap-2 text-sm">
+                    <span class="text-gray-500 dark:text-gray-400">Empresa:</span>
+                    <span class="font-medium text-gray-900 dark:text-white">{{ $activeClient->name }}</span>
+                    <a href="{{ route('workspace.index') }}" class="text-blue-700 hover:underline dark:text-blue-400">Cambiar</a>
+                </div>
+            @endif
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -59,6 +69,24 @@
                 </a>
             @endcan
 
+            @can('selectAny', \App\Models\Client::class)
+                <a
+                    href="{{ route('workspace.index') }}"
+                    class="group rounded-lg bg-white p-6 shadow transition hover:shadow-md dark:bg-gray-800"
+                >
+                    <h2 class="mb-1 text-lg font-semibold text-gray-900 group-hover:text-blue-700 dark:text-white dark:group-hover:text-blue-400">
+                        Mis clientes
+                    </h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        @if ($activeClient)
+                            Trabajando en {{ $activeClient->name }}. Cambia de empresa cuando lo necesites.
+                        @else
+                            Selecciona la empresa con la que vas a trabajar.
+                        @endif
+                    </p>
+                </a>
+            @endcan
+
             @can('viewAny', \App\Models\Client::class)
                 <a
                     href="{{ route('clients.index') }}"
@@ -87,14 +115,6 @@
                 </a>
             @endcan
         </div>
-
-        @cannot('viewAny', \App\Models\Firm::class)
-            @cannot('viewAny', \App\Models\Client::class)
-                <div class="rounded-lg bg-white p-6 text-center text-sm text-gray-500 shadow dark:bg-gray-800 dark:text-gray-400">
-                    Aún no tienes acciones disponibles. Cuando tu firma te asigne clientes, aparecerán aquí.
-                </div>
-            @endcannot
-        @endcannot
     </main>
 </body>
 </html>
