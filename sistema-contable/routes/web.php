@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountantController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\FirmController;
@@ -26,6 +27,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('workspace', [WorkspaceController::class, 'index'])->name('workspace.index');
     Route::post('workspace/{client}', [WorkspaceController::class, 'select'])->name('workspace.select');
+
+    Route::middleware('active.client')->group(function () {
+        Route::post('accounts/base-catalog', [AccountController::class, 'loadBaseCatalog'])->name('accounts.base-catalog');
+        Route::resource('accounts', AccountController::class)->except(['show']);
+    });
 
     Route::resource('accountants', AccountantController::class)->except(['show', 'destroy']);
     Route::patch('accountants/{accountant}/toggle', [AccountantController::class, 'toggleActive'])->name('accountants.toggle');

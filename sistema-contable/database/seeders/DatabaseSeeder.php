@@ -6,6 +6,7 @@ use App\Enums\UserRole;
 use App\Models\Client;
 use App\Models\Firm;
 use App\Models\User;
+use App\Services\BaseAccountCatalog;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -81,5 +82,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $clienteFirmaDos->users()->attach($contadorFirmaDos);
+
+        $catalog = app(BaseAccountCatalog::class);
+        Client::query()->where('is_active', true)->each(fn (Client $client) => $catalog->createFor($client));
     }
 }
