@@ -91,6 +91,12 @@ class AccountController extends Controller
             ]);
         }
 
+        if ($account->lines()->exists()) {
+            return redirect()->route('accounts.index')->withErrors([
+                'account' => "La cuenta {$account->code} tiene movimientos y no se puede eliminar.",
+            ]);
+        }
+
         $account->delete();
 
         return redirect()->route('accounts.index');
