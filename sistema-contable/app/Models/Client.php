@@ -43,6 +43,14 @@ class Client extends Model
     }
 
     /**
+     * @return HasMany<FiscalPeriod, $this>
+     */
+    public function fiscalPeriods(): HasMany
+    {
+        return $this->hasMany(FiscalPeriod::class);
+    }
+
+    /**
      * @return BelongsToMany<User, $this>
      */
     public function users(): BelongsToMany
