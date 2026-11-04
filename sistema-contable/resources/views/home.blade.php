@@ -111,6 +111,18 @@
                         Define los ejercicios contables de {{ $activeClient->name }}.
                     </p>
                 </a>
+
+                <a
+                    href="{{ route('entries.index') }}"
+                    class="group rounded-lg bg-white p-6 shadow transition hover:shadow-md dark:bg-gray-800"
+                >
+                    <h2 class="mb-1 text-lg font-semibold text-gray-900 group-hover:text-blue-700 dark:text-white dark:group-hover:text-blue-400">
+                        Asientos contables
+                    </h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Registra y consulta los asientos de {{ $activeClient->name }}.
+                    </p>
+                </a>
             @endif
 
             @can('viewAny', \App\Models\Client::class)
