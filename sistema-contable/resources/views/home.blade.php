@@ -123,6 +123,15 @@
                         Registra y consulta los asientos de {{ $activeClient->name }}.
                     </p>
                 </a>
+
+                <div class="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+                    <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Libros y saldos</h2>
+                    <ul class="space-y-1 text-sm">
+                        <li><a href="{{ route('reports.journal') }}" class="text-blue-700 hover:underline dark:text-blue-400">Libro diario</a></li>
+                        <li><a href="{{ route('reports.ledger') }}" class="text-blue-700 hover:underline dark:text-blue-400">Libro mayor</a></li>
+                        <li><a href="{{ route('reports.trial-balance') }}" class="text-blue-700 hover:underline dark:text-blue-400">Balance de comprobación</a></li>
+                    </ul>
+                </div>
             @endif
 
             @can('viewAny', \App\Models\Client::class)

@@ -43,6 +43,9 @@ class Money
      */
     public static function format(int $cents): string
     {
-        return number_format(intdiv($cents, 100)).'.'.sprintf('%02d', $cents % 100);
+        $sign = $cents < 0 ? '-' : '';
+        $cents = abs($cents);
+
+        return $sign.number_format(intdiv($cents, 100)).'.'.sprintf('%02d', $cents % 100);
     }
 }

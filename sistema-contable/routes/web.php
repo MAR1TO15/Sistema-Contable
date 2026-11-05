@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\FirmController;
 use App\Http\Controllers\FiscalPeriodController;
 use App\Http\Controllers\JournalEntryController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('periods', FiscalPeriodController::class)->only(['index', 'create', 'store']);
 
         Route::resource('entries', JournalEntryController::class)->only(['index', 'create', 'store', 'show']);
+
+        Route::controller(ReportController::class)->prefix('reports')->name('reports.')->group(function () {
+            Route::get('journal', 'journal')->name('journal');
+            Route::get('ledger', 'ledger')->name('ledger');
+            Route::get('trial-balance', 'trialBalance')->name('trial-balance');
+        });
     });
 
     Route::resource('accountants', AccountantController::class)->except(['show', 'destroy']);

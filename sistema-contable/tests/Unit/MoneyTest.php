@@ -43,4 +43,10 @@ class MoneyTest extends TestCase
         $this->assertSame('1,234,567.89', Money::format(123456789));
         $this->assertSame('0.30', Money::format(30));
     }
+
+    public function test_formatea_montos_negativos(): void
+    {
+        $this->assertSame('-1,234.50', Money::format(-123450));
+        $this->assertSame('-0.05', Money::format(-5));
+    }
 }
