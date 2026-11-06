@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Account;
+use App\Models\FiscalPeriod;
 use App\Models\JournalEntry;
 use App\Services\ActiveClient;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
             ->findOrFail($value));
 
         Route::bind('entry', fn (string $value) => JournalEntry::query()
+            ->where('client_id', app(ActiveClient::class)->get()?->id)
+            ->findOrFail($value));
+
+        Route::bind('period', fn (string $value) => FiscalPeriod::query()
             ->where('client_id', app(ActiveClient::class)->get()?->id)
             ->findOrFail($value));
     }

@@ -36,8 +36,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('accounts', AccountController::class)->except(['show']);
 
         Route::resource('periods', FiscalPeriodController::class)->only(['index', 'create', 'store']);
+        Route::get('periods/{period}/close', [FiscalPeriodController::class, 'confirmClose'])->name('periods.confirm-close');
+        Route::post('periods/{period}/close', [FiscalPeriodController::class, 'close'])->name('periods.close');
 
-        Route::resource('entries', JournalEntryController::class)->only(['index', 'create', 'store', 'show']);
+        Route::resource('entries', JournalEntryController::class);
 
         Route::controller(ReportController::class)->prefix('reports')->name('reports.')->group(function () {
             Route::get('journal', 'journal')->name('journal');

@@ -3,19 +3,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Nuevo asiento - Sistema Contable</title>
+    <title>{{ $entry ? 'Editar asiento '.$entry->number : 'Nuevo asiento' }} - Sistema Contable</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 dark:bg-gray-900">
     @php
-        $lines = old('lines', [[], []]);
+        $lines = old('lines', $defaultLines);
         $inputClass = 'block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white';
     @endphp
 
     <div class="mx-auto max-w-5xl px-4 py-8">
         <a href="{{ route('entries.index') }}" class="mb-4 inline-block text-sm text-blue-700 hover:underline dark:text-blue-400">&larr; Asientos contables</a>
 
-        <h1 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">Nuevo asiento</h1>
+        <h1 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{{ $entry ? 'Editar asiento No. '.$entry->number : 'Nuevo asiento' }}</h1>
 
         @if ($errors->any())
             <div class="mb-4 rounded-lg bg-red-50 p-4 text-sm text-red-700 dark:bg-red-900/30 dark:text-red-400">
@@ -34,13 +34,16 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('entries.store') }}" class="space-y-6">
+        <form method="POST" action="{{ $entry ? route('entries.update', $entry) : route('entries.store') }}" class="space-y-6">
             @csrf
+            @if ($entry)
+                @method('PUT')
+            @endif
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div>
                     <label for="date" class="mb-1 block text-sm font-medium text-gray-900 dark:text-white">Fecha</label>
-                    <input id="date" name="date" type="date" value="{{ old('date') }}" required class="{{ $inputClass }}">
+                    <input id="date" name="date" type="date" value="{{ old('date', $entry?->date->toDateString()) }}" required class="{{ $inputClass }}">
                     @if ($openPeriods->isNotEmpty())
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                             Periodos abiertos:
@@ -51,7 +54,7 @@
 
                 <div class="sm:col-span-2">
                     <label for="description" class="mb-1 block text-sm font-medium text-gray-900 dark:text-white">Descripción</label>
-                    <input id="description" name="description" type="text" value="{{ old('description') }}" required maxlength="255" class="{{ $inputClass }}">
+                    <input id="description" name="description" type="text" value="{{ old('description', $entry?->description) }}" required maxlength="255" class="{{ $inputClass }}">
                 </div>
             </div>
 
@@ -89,7 +92,7 @@
             </div>
 
             <button type="submit" class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800">
-                Registrar asiento
+                {{ $entry ? 'Guardar cambios' : 'Registrar asiento' }}
             </button>
         </form>
     </div>

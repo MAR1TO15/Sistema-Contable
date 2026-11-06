@@ -9,17 +9,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['client_id', 'fiscal_period_id', 'user_id', 'number', 'date', 'description'])]
+#[Fillable(['client_id', 'fiscal_period_id', 'user_id', 'number', 'date', 'description', 'is_closing'])]
 class JournalEntry extends Model
 {
     /** @use HasFactory<JournalEntryFactory> */
     use HasFactory;
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'is_closing' => false,
+    ];
 
     protected function casts(): array
     {
         return [
             'number' => 'integer',
             'date' => 'date',
+            'is_closing' => 'boolean',
         ];
     }
 

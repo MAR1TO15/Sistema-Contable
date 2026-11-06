@@ -20,16 +20,18 @@ class AccountBalances
      * Balances of every account of the client, ordered by code and keyed by
      * account id. A grouping account adds up the debits and credits of its
      * descendants and applies its own nature, so a contra account (e.g.
-     * accumulated depreciation) reduces its parent's balance.
+     * accumulated depreciation) reduces its parent's balance. Leaving out
+     * the closing entry gives the balances as they were before closing.
      *
      * @return Collection<int, AccountBalance>
      */
-    public function for(Client $client, ?FiscalPeriod $period = null): Collection
+    public function for(Client $client, ?FiscalPeriod $period = null, bool $includeClosing = true): Collection
     {
         $accounts = $client->accounts()->orderBy('code')->get();
 
         $sums = $this->lines($client)
             ->when($period, fn (Builder $query) => $query->where('journal_entries.fiscal_period_id', $period->id))
+            ->unless($includeClosing, fn (Builder $query) => $query->where('journal_entries.is_closing', false))
             ->groupBy('journal_entry_lines.account_id')
             ->selectRaw('journal_entry_lines.account_id, sum(journal_entry_lines.debit) as debit, sum(journal_entry_lines.credit) as credit')
             ->get()
