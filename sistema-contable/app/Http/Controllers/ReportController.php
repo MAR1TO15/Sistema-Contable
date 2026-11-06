@@ -7,6 +7,7 @@ use App\Models\JournalEntryLine;
 use App\Services\AccountBalance;
 use App\Services\AccountBalances;
 use App\Services\ActiveClient;
+use App\Services\IncomeStatementService;
 use App\Support\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -75,6 +76,20 @@ class ReportController extends Controller
             'balances' => $balances,
             'totalDebit' => $postable->sum('debit'),
             'totalCredit' => $postable->sum('credit'),
+        ]);
+    }
+
+    public function incomeStatement(Request $request, IncomeStatementService $service): View
+    {
+        $client = $this->activeClient->get();
+
+        // A profit "of all periods" means nothing, so default to the latest one.
+        $period = $this->period($request)
+            ?? $client->fiscalPeriods()->orderByDesc('start_date')->first();
+
+        return view('reports.income-statement', [
+            ...$this->filterData($period),
+            'statement' => $period ? $service->for($client, $period) : null,
         ]);
     }
 
