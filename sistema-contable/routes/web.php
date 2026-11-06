@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
             Route::get('journal', 'journal')->name('journal');
             Route::get('ledger', 'ledger')->name('ledger');
             Route::get('trial-balance', 'trialBalance')->name('trial-balance');
+            Route::get('income-statement', 'incomeStatement')->name('income-statement');
         });
     });
 

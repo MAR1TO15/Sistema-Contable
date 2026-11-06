@@ -130,6 +130,7 @@
                         <li><a href="{{ route('reports.journal') }}" class="text-blue-700 hover:underline dark:text-blue-400">Libro diario</a></li>
                         <li><a href="{{ route('reports.ledger') }}" class="text-blue-700 hover:underline dark:text-blue-400">Libro mayor</a></li>
                         <li><a href="{{ route('reports.trial-balance') }}" class="text-blue-700 hover:underline dark:text-blue-400">Balance de comprobación</a></li>
+                        <li><a href="{{ route('reports.income-statement') }}" class="text-blue-700 hover:underline dark:text-blue-400">Estado de resultados</a></li>
                     </ul>
                 </div>
             @endif
