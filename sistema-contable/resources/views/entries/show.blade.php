@@ -10,8 +10,31 @@
     <div class="mx-auto max-w-5xl px-4 py-8">
         <a href="{{ route('entries.index') }}" class="mb-4 inline-block text-sm text-blue-700 hover:underline dark:text-blue-400">&larr; Asientos contables</a>
 
-        <h1 class="mb-1 text-2xl font-bold text-gray-900 dark:text-white">Asiento No. {{ $entry->number }}</h1>
-        <p class="mb-6 text-gray-600 dark:text-gray-400">{{ $entry->description }}</p>
+        <div class="mb-6 flex flex-wrap items-start justify-between gap-3">
+            <div>
+                <h1 class="mb-1 text-2xl font-bold text-gray-900 dark:text-white">
+                    Asiento No. {{ $entry->number }}
+                    @if ($entry->is_closing)
+                        <span class="ml-2 rounded bg-purple-100 px-2 py-1 align-middle text-xs font-medium text-purple-800 dark:bg-purple-900 dark:text-purple-300">Asiento de cierre</span>
+                    @endif
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400">{{ $entry->description }}</p>
+            </div>
+
+            @can('update', $entry)
+                <div class="flex items-center gap-3 text-sm">
+                    <a href="{{ route('entries.edit', $entry) }}" class="rounded-lg border border-blue-700 px-4 py-2 font-medium text-blue-700 hover:bg-blue-50 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-gray-800">Editar</a>
+                    <form method="POST" action="{{ route('entries.destroy', $entry) }}"
+                        onsubmit="return confirm('¿Eliminar el asiento No. {{ $entry->number }}?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="rounded-lg border border-red-700 px-4 py-2 font-medium text-red-700 hover:bg-red-50 dark:border-red-400 dark:text-red-400 dark:hover:bg-gray-800">Eliminar</button>
+                    </form>
+                </div>
+            @else
+                <p class="text-sm text-gray-500 dark:text-gray-400">Este asiento pertenece a un periodo cerrado y no se puede modificar.</p>
+            @endcan
+        </div>
 
         <dl class="mb-6 grid grid-cols-1 gap-3 rounded-lg bg-white p-4 text-sm shadow sm:grid-cols-3 dark:bg-gray-800">
             <div>

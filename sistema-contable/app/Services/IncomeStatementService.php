@@ -17,7 +17,8 @@ class IncomeStatementService
 
     public function for(Client $client, FiscalPeriod $period): IncomeStatement
     {
-        $balances = $this->balances->for($client, $period)
+        // The closing entry zeroes income and expenses, so it is left out.
+        $balances = $this->balances->for($client, $period, includeClosing: false)
             ->filter(fn (AccountBalance $balance) => $balance->account->is_postable
                 && ($balance->debit > 0 || $balance->credit > 0));
 

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['client_id', 'name', 'start_date', 'end_date', 'status'])]
+#[Fillable(['client_id', 'name', 'start_date', 'end_date', 'status', 'closed_by', 'closed_at'])]
 class FiscalPeriod extends Model
 {
     /** @use HasFactory<FiscalPeriodFactory> */
@@ -30,7 +30,13 @@ class FiscalPeriod extends Model
             'start_date' => 'date',
             'end_date' => 'date',
             'status' => PeriodStatus::class,
+            'closed_at' => 'datetime',
         ];
+    }
+
+    public function isOpen(): bool
+    {
+        return $this->status === PeriodStatus::Abierto;
     }
 
     /**
@@ -39,6 +45,14 @@ class FiscalPeriod extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function closedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'closed_by');
     }
 
     /**
