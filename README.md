@@ -1,13 +1,13 @@
 # Sistema Contable
 
-Aplicación web multiempresa para firmas contables. Cada firma administra a sus clientes (empresas) y a sus contadores, y cada contador lleva la contabilidad de las empresas que tiene asignadas: catálogo de cuentas, asientos, libros y estados financieros.
+Aplicación web multiempresa para firmas contables. Cada firma administra a sus clientes y a sus contadores, y cada contador lleva la contabilidad de las empresas que tiene asignadas: catálogo de cuentas, asientos, libros y estados financieros.
 
 Proyecto final del curso de Análisis de Sistemas.
 
 ## Funcionalidades
 
 - **Usuarios y roles:** super administrador, administrador de firma y contador. Cada usuario solo accede a los datos de las empresas que tiene asignadas.
-- **Catálogo de cuentas** jerárquico por empresa, con tipo (activo, pasivo, patrimonio, ingreso, gasto) y naturaleza (deudora o acreedora).
+- **Catálogo de cuentas** jerárquico por empresa, con tipo activo, pasivo, patrimonio, ingreso, gasto y naturaleza deudora o acreedora.
 - **Periodos fiscales** sin traslapes entre sí.
 - **Asientos contables** de varias líneas, validados con el principio de partida doble.
 - **Libro diario, libro mayor y balance de comprobación**, con filtro por periodo.
