@@ -7,6 +7,7 @@ use App\Models\JournalEntryLine;
 use App\Services\AccountBalance;
 use App\Services\AccountBalances;
 use App\Services\ActiveClient;
+use App\Services\BalanceSheetService;
 use App\Services\IncomeStatementService;
 use App\Support\Money;
 use Illuminate\Database\Eloquent\Builder;
@@ -90,6 +91,20 @@ class ReportController extends Controller
         return view('reports.income-statement', [
             ...$this->filterData($period),
             'statement' => $period ? $service->for($client, $period) : null,
+        ]);
+    }
+
+    public function balanceSheet(Request $request, BalanceSheetService $service): View
+    {
+        $validated = $request->validate(
+            ['date' => ['nullable', 'date_format:Y-m-d']],
+            ['date.date_format' => 'La fecha de corte debe tener el formato AAAA-MM-DD.'],
+        );
+
+        $cutoff = $validated['date'] ?? now()->toDateString();
+
+        return view('reports.balance-sheet', [
+            'sheet' => $service->for($this->activeClient->get(), $cutoff),
         ]);
     }
 

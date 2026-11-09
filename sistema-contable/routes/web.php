@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
             Route::get('ledger', 'ledger')->name('ledger');
             Route::get('trial-balance', 'trialBalance')->name('trial-balance');
             Route::get('income-statement', 'incomeStatement')->name('income-statement');
+            Route::get('balance-sheet', 'balanceSheet')->name('balance-sheet');
         });
     });
 
