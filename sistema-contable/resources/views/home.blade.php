@@ -131,6 +131,7 @@
                         <li><a href="{{ route('reports.ledger') }}" class="text-blue-700 hover:underline dark:text-blue-400">Libro mayor</a></li>
                         <li><a href="{{ route('reports.trial-balance') }}" class="text-blue-700 hover:underline dark:text-blue-400">Balance de comprobación</a></li>
                         <li><a href="{{ route('reports.income-statement') }}" class="text-blue-700 hover:underline dark:text-blue-400">Estado de resultados</a></li>
+                        <li><a href="{{ route('reports.balance-sheet') }}" class="text-blue-700 hover:underline dark:text-blue-400">Balance general</a></li>
                     </ul>
                 </div>
             @endif
